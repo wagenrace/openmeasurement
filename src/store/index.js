@@ -22,8 +22,8 @@ export default createStore({
       };
     },
     setUserName(state, payload) {
-      state.userName = payload.userName
-    }
+      state.userName = payload.userName;
+    },
   },
   actions: {
     login(state, payload) {
@@ -33,8 +33,12 @@ export default createStore({
           .get("said")
           .map()
           .on((say, id) => state.commit("loadMessage", { say, id }));
-        user.get("alias").once((userName, id) => state.commit("setUserName", {userName}))
+        user.get("alias").once((userName, id) => state.commit("setUserName", { userName }));
       });
+    },
+    createAccount(state, payload) {
+      user.create(payload.username, payload.password);
+      this.dispatch("login", payload)
     },
     deleteMessage(state, payload) {
       if (!user.is) {

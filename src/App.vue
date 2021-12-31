@@ -1,11 +1,24 @@
 <template>
   <div id="nav">
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/login">Login</router-link>
+    <div v-if="userName">Hello {{ userName }}</div>
+    <div v-else>Please login</div>
   </div>
-  <router-view/>
+  <router-view />
 </template>
+<script>
+import { mapGetters } from "vuex";
 
+export default {
+  name: "App",
+  computed: {
+    ...mapGetters({
+      userName: "getUserName",
+    }),
+  },
+};
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
