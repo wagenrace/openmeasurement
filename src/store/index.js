@@ -9,6 +9,7 @@ export default createStore({
   state: {
     userName: null,
     allMessages: {},
+    following: ["a", "b"]
   },
   mutations: {
     loadMessage(state, payload) {
@@ -21,12 +22,16 @@ export default createStore({
         message: payload.say,
       };
     },
+    deleteLocalMessages(state, payload) {
+      state.allMessages = {}
+    },
     setUserName(state, payload) {
       state.userName = payload.userName;
     },
   },
   actions: {
     login(state, payload) {
+      state.commit("deleteLocalMessages", {})
       user.auth(payload.username, payload.password);
       gun.on("auth", () => {
         user
