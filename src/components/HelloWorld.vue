@@ -22,11 +22,14 @@
     Hello {{ userName }} you have
     {{ Object.keys(storeAllMessages).length }} messages
     <div
-      class="bg-blue-300"
+      class="bg-blue-300 border-red-400 border-2"
       v-for="messageId in Object.keys(storeAllMessages)"
       :key="messageId"
     >
       <p>Message:{{ storeAllMessages[messageId].message }}</p>
+      <p>User:{{ storeAllMessages[messageId].userName }}</p>
+      <p>Id:{{ storeAllMessages[messageId].id }}</p>
+      <p>Time:{{ storeAllMessages[messageId].time }}</p>
       <button @click="deleteMessage(messageId)">Delete</button>
     </div>
   </div>
@@ -55,24 +58,28 @@ export default {
     ...mapActions({
       deleteMessageGun: "deleteMessage",
       addMessageGun: "addMessage",
+      loadMessagesGun: "loadMessages"
     }),
-    addMessage(say, id) {
-      if (!say) {
+    addMessage(newMessage, id) {
+      if (!newMessage) {
         return;
       }
       this.allMessages.push({
         id,
-        message: say,
+        message: newMessage,
       });
     },
     sendMessage(e) {
       if (e) e.preventDefault();
-      this.addMessageGun({ newMessage: this.newMessage });
+      this.addMessageGun({ message: this.newMessage });
       this.newMessage = "";
     },
     deleteMessage(messageId) {
       this.deleteMessageGun({ messageId });
     },
   },
+  mounted() {
+    this.loadMessagesGun()
+  }
 };
 </script>
